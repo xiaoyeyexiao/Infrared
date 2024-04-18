@@ -24,8 +24,8 @@ color_face_image: 经过放缩、去掉脖子以下区域,只留人脸的灰度�
 def identify_nose(gray_path, color_path):
     
     # 读取图像
-    origin_gray = cv2.imread(gray_path)
     color = cv2.imread(color_path)
+    origin_gray = cv2.imread(gray_path)
     # origin_gray是三通道的，gray才是真正的灰度图
     gray = cv2.cvtColor(origin_gray, cv2.COLOR_BGR2GRAY)
     

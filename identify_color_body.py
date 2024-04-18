@@ -64,18 +64,17 @@ def identify_color_body(color_path):
 
     # 遍历每个轮廓
     for contour in contours:
-        # 在当前轮廓中找到具有最小y值的点
         for point in contour:
             x, y = point[0]
             if y < head_top_row:
-                # highest_point = (x, y)
                 head_top_row = y
 
+    # 截取头部位置
     mid_row = head_top_row + int((output_image.shape[0] -head_top_row) * 0.4)
     output_image = output_image[0:mid_row, :, :] 
+    
     # 遍历每个轮廓
     for contour in contours:
-        # 在当前轮廓中找到具有最小y值的点
         for point in contour:
             x, y = point[0]
             if x < head_left_col and y < mid_row:
