@@ -6,7 +6,6 @@ import numpy as np
 import cv2
 import torch
 import sys
-import multi_ostu
 
 # 图像预处理
 def preprocess_image(gray_path):
@@ -48,25 +47,11 @@ def identify_gray_body(gray_path):
 
     # 寻找轮廓
     contours, _ = cv2.findContours(face_mask_cv, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    
+
     # 将轮廓绘制在原始图像上
     origin_gray = cv2.imread(gray_path)
-    # origin_gray是三通道的，gray才是真正的灰度图
-    gray = cv2.cvtColor(origin_gray, cv2.COLOR_BGR2GRAY)
     cv2.drawContours(origin_gray, contours, -1, (0, 255, 0), 2)
-    
-    # 应用多级大津法提取出人脸
-    # 先将上面和下面的数字涂黑，防止干扰识别效果
-    gray[:85, :] = 0
-    gray[645:, :] = 0
-    # classese表示需要划分的类别数量，= 4 表示3级大津阈值算法
-    classes = 4
-    thresholds = multi_ostu.multi_ostu(gray, classes)
-    print("thresholds: ", thresholds)
-    mask = gray > thresholds[len(thresholds) - 1]
-    # 将人脸以外的区域涂成黑色
-    gray[~mask] = 0
-    
+
     # """显示图片"""
     # print("-----show image-----")
     # # 创建窗口
@@ -78,7 +63,7 @@ def identify_gray_body(gray_path):
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
     # sys.exit()
-    
+
     # 头的上边
     head_top_row = float('inf')
     # 头的左边和右边
@@ -90,17 +75,20 @@ def identify_gray_body(gray_path):
         for point in contour:
             x, y = point[0]
             if y < head_top_row:
+                # highest_point = (x, y)
                 head_top_row = y
 
-    # 截取头部位置
     mid_row = head_top_row + int((origin_gray.shape[0] -head_top_row) * 0.4)
-    origin_gray = origin_gray[0:mid_row, :, :]
-    gray[mid_row:,:] = 0
+    origin_gray = origin_gray[0:mid_row, :, :] 
     
-    # np.argwhere(): 返回符合条件的非0的数组元组的索引；white_pixels的形式为[[x1,y1],[x2,y2],...,[xk,yk]]
-    white_pixels = np.argwhere(gray != 0)
-    head_left_col = white_pixels[white_pixels[:, 1].argmin()][1]
-    head_right_col = white_pixels[white_pixels[:, 1].argmax()][1]
+    # 遍历每个轮廓
+    for contour in contours:
+        for point in contour:
+            x, y = point[0]
+            if x < head_left_col and y < mid_row:
+                head_left_col = x
+            if x > head_right_col and y < mid_row:
+                head_right_col = x
 
     return origin_gray, [head_top_row, head_left_col, head_right_col]
 
@@ -115,6 +103,6 @@ def identify_gray_body(gray_path):
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
     # exit()
-    
+
 # gray_path = '/home/yechentao/Programs/Infrared/image/gray1/frame_1.jpg'
 # identify_gray_body(gray_path)
