@@ -18,7 +18,7 @@ def preprocess_image(color_path):
     ])
     return preprocess(image).unsqueeze(0)
 
-def identify_color_body(color_path):
+def identify_color_face(color_path):
     # 加载预训练的 DeepLabv3 模型
     model = models.segmentation.deeplabv3_resnet50(pretrained=True)
     model.eval()

@@ -41,7 +41,7 @@ def video_to_image(video_path, output_dir, frame_interval=10, isoneimage = False
             image_index += 1
             
             if isoneimage:
-                exit()
+                break
 
     # Release the video capture object
     cap.release()

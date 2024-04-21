@@ -17,7 +17,7 @@ def preprocess_image(gray_path):
     ])
     return preprocess(image).unsqueeze(0)
 
-def identify_gray_body(gray_path):
+def identify_gray_face(gray_path):
     # 加载预训练的 DeepLabv3 模型
     model = models.segmentation.deeplabv3_resnet50(pretrained=True)
     model.eval()
