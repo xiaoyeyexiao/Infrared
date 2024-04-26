@@ -70,16 +70,16 @@ def identify_ROI(gray_path, color_path):
     for i in range(len(color_jaw)):
         cv2.circle(color, color_jaw[i], 3, (0, 255, 0), -1)
     
-    # """显示图片"""
-    # print("-----show image-----")
-    # # 创建窗口
-    # cv2.namedWindow('Resizable Window', cv2.WINDOW_NORMAL)
-    # # 显示图片
-    # cv2.imshow('Resizable Window', color)
-    # # 调整窗口大小
-    # cv2.resizeWindow('Resizable Window', 800, 600)  # 设置窗口大小为800x600
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+    """显示图片"""
+    print("-----show image-----")
+    # 创建窗口
+    cv2.namedWindow('Resizable Window', cv2.WINDOW_NORMAL)
+    # 显示图片
+    cv2.imshow('Resizable Window', color)
+    # 调整窗口大小
+    cv2.resizeWindow('Resizable Window', 800, 600)  # 设置窗口大小为800x600
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
     # sys.exit()
     
     """得到灰度图的人脸坐标"""
@@ -208,6 +208,8 @@ def identify_ROI(gray_path, color_path):
     # 鼻子区域，高度为1.3L，宽度为3L
     nose_top_row = gray_nose[1][1] - int(L * 0.65)
     nose_bottom_row = gray_nose[1][1] + int(L * 0.65)
+    # nose_top_row = gray_nose[0][1]
+    # nose_bottom_row = gray_nose[0][1] + int(L * 1.5)
     nose_left_col = gray_nose[0][0] - int(L * 1.5)
     nose_right_col = gray_nose[0][0] + int(L * 1.5)
     nose_region = [nose_top_row, nose_bottom_row, nose_left_col, nose_right_col]
@@ -255,15 +257,15 @@ def identify_ROI(gray_path, color_path):
     print("right_cheek_region", right_cheek_region)
     print("jaw_region", jaw_region)
     
-    return nose_region, left_forehead_region, right_forehead_region, left_cheek_region, right_cheek_region, jaw_region
+    """显示图片"""
+    print("-----show image-----")
+    # 创建窗口
+    cv2.namedWindow('Resizable Window', cv2.WINDOW_NORMAL)
+    # 显示图片
+    cv2.imshow('Resizable Window', origin_gray)
+    # 调整窗口大小
+    cv2.resizeWindow('Resizable Window', 800, 600)  # 设置窗口大小为800x600
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
     
-    # """显示图片"""
-    # print("-----show image-----")
-    # # 创建窗口
-    # cv2.namedWindow('Resizable Window', cv2.WINDOW_NORMAL)
-    # # 显示图片
-    # cv2.imshow('Resizable Window', origin_gray)
-    # # 调整窗口大小
-    # cv2.resizeWindow('Resizable Window', 800, 600)  # 设置窗口大小为800x600
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+    return nose_region, left_forehead_region, right_forehead_region, left_cheek_region, right_cheek_region, jaw_region

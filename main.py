@@ -6,11 +6,13 @@ import extract_ROI
 import identify_ROI
 
 """
-用到的文件: main.py, vedio_to_image.py, identify_ROI.py, identify_gray_face.py, identify_color_face.py, 
-           identify_color_feature.py, extract_ROI.py
+1. 介绍: 先将视频截取为图片, 然后通过第一张图片识别出6个ROI区域, 最后将这6个ROI区域分别截取出来
+
+2. 用到的文件: main.py, vedio_to_image.py, identify_ROI.py, identify_gray_face.py, identify_color_face.py, 
+              identify_color_feature.py, extract_ROI.py
 """
 
-# 选择要识别对象
+# 选择要识别的对象
 i = 8
 
 """将视频截取为图片"""
@@ -26,7 +28,7 @@ os.makedirs(gray_directory, exist_ok=True)
 # 每隔多少帧截取一次
 frame_interval = 1
 # 是否只截取一张图片
-isoneimage = True
+isoneimage = False
 # 将视频截取为图片
 # vedio_to_image.video_to_image(color_vedio_path, color_directory, frame_interval, isoneimage)
 # vedio_to_image.video_to_image(gray_video_path, gray_directory, frame_interval, isoneimage)
@@ -44,7 +46,7 @@ left_cheek_region = []
 right_cheek_region = []
 jaw_region = []
 # 识别
-# nose_region, left_forehead_region, right_forehead_region, left_cheek_region, right_cheek_region, jaw_region = identify_ROI.identify_ROI(gray_path, color_path)
+nose_region, left_forehead_region, right_forehead_region, left_cheek_region, right_cheek_region, jaw_region = identify_ROI.identify_ROI(gray_path, color_path)
 
 
 """提取ROI区域"""
@@ -61,4 +63,4 @@ for key, value in maps.items():
     # 假如目录不存在，则创建对应目录
     os.makedirs(region_directory, exist_ok=True)
     # 将所有灰度图的各个ROI截取出来，存放进相应的文件夹中
-    # extract_ROI.extract_ROI(value, gray_directory, region_directory)
+    extract_ROI.extract_ROI(value, gray_directory, region_directory)
