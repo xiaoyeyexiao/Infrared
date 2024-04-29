@@ -70,7 +70,7 @@ def identify_color_face(color_path):
                 head_top_row = y
 
     # 截取头部位置
-    mid_row = head_top_row + int((output_image.shape[0] -head_top_row) * 0.4)
+    mid_row = head_top_row + int((output_image.shape[0] -head_top_row) * 0.8)
     output_image = output_image[0:mid_row, :, :] 
     
     # 遍历每个轮廓

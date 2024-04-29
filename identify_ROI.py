@@ -42,7 +42,18 @@ def identify_ROI(gray_path, color_path):
     color_head = [[]]
     color_face_image, color_head= identify_color_face.identify_color_face(color_path)
     print("-----得到彩色图的人脸坐标和各个特征点的坐标-----")
-    # print("color_head(top_row, left_col, right_col): ", color_head)
+    print("color_head(top_row, left_col, right_col): ", color_head)
+    
+    """显示图片"""
+    print("-----show image-----")
+    # 创建窗口
+    cv2.namedWindow('Resizable Window', cv2.WINDOW_NORMAL)
+    # 显示图片
+    cv2.imshow('Resizable Window', color_face_image)
+    # 调整窗口大小
+    cv2.resizeWindow('Resizable Window', 800, 600)  # 设置窗口大小为800x600
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
     
     # 拉伸图片的长后,在原图上的特征点的纵坐标y也要放缩(横坐标x不用)
     for i in range(3):
@@ -51,7 +62,7 @@ def identify_ROI(gray_path, color_path):
     for i in range(5):
         color_left_eyebrow[i][0] = int(color_left_eyebrow[i][0] * 1.33)
         color_right_eyebrow[i][0] = int(color_right_eyebrow[i][0] * 1.33)
-    # print("color_nose(y, x): ", color_nose)
+    print("color_nose(y, x): ", color_nose)
     # print("color_left_eyebrow(y, x): ", color_left_eyebrow)
     # print("color_right_eyebrow(y, x): ", color_right_eyebrow)
     # print("color_jaw(y, x): ", color_jaw)
@@ -80,25 +91,23 @@ def identify_ROI(gray_path, color_path):
     cv2.resizeWindow('Resizable Window', 800, 600)  # 设置窗口大小为800x600
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    # sys.exit()
     
     """得到灰度图的人脸坐标"""
     print("-----得到灰度图的人脸坐标-----")
     gray_head = [[]]
     gray_face_image, gray_head = identify_gray_face.identify_gray_face(gray_path)
-    # print("gray_head(top_row, left_col, right_col): ", gray_head)
+    print("gray_head(top_row, left_col, right_col): ", gray_head)
     
-    # """显示图片"""
-    # print("-----show image-----")
-    # # 创建窗口
-    # cv2.namedWindow('Resizable Window', cv2.WINDOW_NORMAL)
-    # # 显示图片
-    # cv2.imshow('Resizable Window', gray_face_image)
-    # # 调整窗口大小
-    # cv2.resizeWindow('Resizable Window', 800, 600)  # 设置窗口大小为800x600
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
-    # sys.exit()
+    """显示图片"""
+    print("-----show image-----")
+    # 创建窗口
+    cv2.namedWindow('Resizable Window', cv2.WINDOW_NORMAL)
+    # 显示图片
+    cv2.imshow('Resizable Window', gray_face_image)
+    # 调整窗口大小
+    cv2.resizeWindow('Resizable Window', 800, 600)  # 设置窗口大小为800x600
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
     
     """确定灰度图中各个特征点的坐标"""
     # 计算彩色图和灰度图中头的宽度
@@ -120,11 +129,11 @@ def identify_ROI(gray_path, color_path):
     for i in range(3):
         color_head[i] = int(color_head[i] * ratio)
     print("-----确定灰度图中各个特征点的坐标-----")
-    # print("color_nose(y, x): ", color_nose)
+    print("color_nose(y, x): ", color_nose)
     # print("color_left_eyebrow(y, x): ", color_left_eyebrow)
     # print("color_right_eyebrow(y, x): ", color_right_eyebrow)
     # print("color_jaw(y, x): ", color_jaw)
-    # print("color_head(top_row, left_col, right_col): ", color_head)
+    print("color_head(top_row, left_col, right_col): ", color_head)
     
     # """显示图片"""
     # print("-----show image-----")
@@ -136,7 +145,6 @@ def identify_ROI(gray_path, color_path):
     # cv2.resizeWindow('Resizable Window', 800, 600)  # 设置窗口大小为800x600
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
-    # sys.exit()
     
     # 计算出彩色图中特征点坐标(y, x)距离头部左边的距离和上边的距离
     nose_dis = np.zeros((3, 2), dtype=int)
@@ -153,7 +161,7 @@ def identify_ROI(gray_path, color_path):
         left_eyebrow_dis[i][1] = color_left_eyebrow[i][1] - color_head[0]
         right_eyebrow_dis[i][0] = color_right_eyebrow[i][0] - color_head[1]
         right_eyebrow_dis[i][1] = color_right_eyebrow[i][1] - color_head[0]
-    # print("nose_dis(left, top): ", nose_dis)
+    print("nose_dis(left, top): ", nose_dis)
     # print("left_eyebrow_dis(left, top): ", left_eyebrow_dis)
     # print("right_eyebrow_dis(left, top): ", right_eyebrow_dis)
     # print("jaw_dis(left, top): ", jaw_dis)
@@ -177,7 +185,8 @@ def identify_ROI(gray_path, color_path):
         gray_right_eyebrow[i][1] = gray_head[0] + right_eyebrow_dis[i][1]
     
     # 由于鼻子一般在人脸中间，所以这里计算鼻尖位置与人脸中线的偏差，调整各个特征点的位置
-    move = mid_col - gray_nose[0][0]
+    # move = mid_col - gray_nose[0][0]
+    move = 0
     # 将鼻尖的位置调整到人脸中间，其他特征点按同样的距离调整
     for i in range(3):
         gray_nose[i][0] = gray_nose[i][0] + move
@@ -185,7 +194,7 @@ def identify_ROI(gray_path, color_path):
     for i in range(5):
         gray_left_eyebrow[i][0] = gray_left_eyebrow[i][0] + move
         gray_right_eyebrow[i][0] = gray_right_eyebrow[i][0] + move
-    # print("gray_nose(y, x): ", gray_nose)
+    print("gray_nose(y, x): ", gray_nose)
     # print("gray_left_eyebrow(y, x): ", gray_left_eyebrow)
     # print("gray_right_eyebrow(y, x): ", gray_right_eyebrow)
     # print("gray_jaw(y, x): ", gray_jaw)
@@ -205,13 +214,13 @@ def identify_ROI(gray_path, color_path):
         cv2.circle(origin_gray, gray_jaw[i], 3, (0, 255, 0), -1)
     
     # 得到6个ROI区域，其中L为第29个特征点和第30个特征点之间的距离，每个人的长度不一样
-    # 鼻子区域，高度为1.3L，宽度为3L
+    # 鼻子区域，高度为1.3L，宽度为3.4L
     nose_top_row = gray_nose[1][1] - int(L * 0.65)
     nose_bottom_row = gray_nose[1][1] + int(L * 0.65)
     # nose_top_row = gray_nose[0][1]
     # nose_bottom_row = gray_nose[0][1] + int(L * 1.5)
-    nose_left_col = gray_nose[0][0] - int(L * 1.5)
-    nose_right_col = gray_nose[0][0] + int(L * 1.5)
+    nose_left_col = gray_nose[0][0] - int(L * 1.7)
+    nose_right_col = gray_nose[0][0] + int(L * 1.7)
     nose_region = [nose_top_row, nose_bottom_row, nose_left_col, nose_right_col]
     cv2.rectangle(origin_gray, (nose_region[2], nose_region[0]), (nose_region[3], nose_region[1]), (0, 255, 0), 2)
     # 额头左侧区域，高度为0.7L，宽度为2.5L

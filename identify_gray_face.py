@@ -78,7 +78,7 @@ def identify_gray_face(gray_path):
                 # highest_point = (x, y)
                 head_top_row = y
 
-    mid_row = head_top_row + int((origin_gray.shape[0] -head_top_row) * 0.4)
+    mid_row = head_top_row + int((origin_gray.shape[0] -head_top_row) * 0.8)
     origin_gray = origin_gray[0:mid_row, :, :] 
     
     # 遍历每个轮廓

@@ -236,7 +236,7 @@ if __name__ == '__main__':
     #     signal_list.append(gray_frame)
         
     
-    file_pathname = '/home/mengqingyi/code/yechentao/Infrared_vedio_image/region/nose/gray8'
+    file_pathname = '/home/mengqingyi/code/yechentao/Infrared_vedio_image/region/nose/gray10'
     for filename in os.listdir(file_pathname):
         img = cv2.imread(file_pathname+'/'+filename)
         gray_frame = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # 灰度图
